@@ -10,6 +10,8 @@
 #define S1Echo A3
 #define S2Echo A4
 #define S3Echo A5
+
+#define IR 12
 //Set the speed of the motors
 #define Speed 160
 
@@ -44,46 +46,48 @@ void setup() {
   pinMode(Orange, OUTPUT);
   pinMode(Yellow, OUTPUT);
   pinMode(Green, OUTPUT);  
+  pinMode(IR, INPUT);
 }
 
 void loop() {
   int centerSensor = sensorOne();
   int leftSensor = sensorThree();
   int rightSensor = sensorTwo();
+  int SensorValue = digitalRead(IR);
 // Check the distance using the IF condition
-  // Serial.println(centerSensor);
-  if ( centerSensor < 4) {
+  // Serial.println(leftSensor);
+  if ( centerSensor < 5) {
     Reverse();
     Serial.println("Reverse");
-    delay(15);
+    delay(10); // 15
     int centerSensor = sensorOne();
     // Stop();
     return;
   }
 
-  if (14 >= centerSensor) { // 8
+  if (20 >= centerSensor ) { // 8 // 10 >= centerSensor || || SensorValue == LOW
     Stop();
     Serial.println("Stop");
-    // delay(3);
+    delay(15);
 
     if (leftSensor > rightSensor) {
       left();
       Serial.println("Left");
-      delay(300);
+      delay(150); // 300
       return;
     } else {
       right();
       Serial.println("Right");
-      delay(300);
+      delay(150);
       return;
     }
   }
 
-  if (leftSensor < 5){
+  if (leftSensor < 6){
     right();
     Serial.println("Right");
-    delay(40);
-    Serial.println(leftSensor);
+    delay(10);
+    // Serial.println(leftSensor);
     if (leftSensor < 3) {
       ReverseLeft();
       delay(15);
@@ -97,15 +101,15 @@ void loop() {
   //   forward();
   // }
     
-  if (rightSensor < 5){
+  if (rightSensor < 6){
     left();
     Serial.println("Left");
-    delay(40);
+    delay(10); //40
     if (rightSensor < 3) {
       ReverseRight();
-      delay(15);
+      delay(15); //15
       Reverse();
-      delay(15);
+      delay(15); //15
       return;
     }
   }
